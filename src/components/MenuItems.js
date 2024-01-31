@@ -1,22 +1,38 @@
 export const MenuItems = [
   {
-    title: 'Marketing',
-    path: '/marketing',
+    title: 'Community',
+    path: '/Community',
     cName: 'dropdown-link'
   },
   {
-    title: 'Consulting',
-    path: '/consulting',
+    title: 'User Profile',
+    path: '/UserProfile/messages',
     cName: 'dropdown-link'
   },
   {
-    title: 'Design',
-    path: '/design',
+    title: 'Builder Profile',
+    path: '/BuilderProfile/messages',
     cName: 'dropdown-link'
   },
   {
-    title: 'Development',
-    path: '/development',
+    title: 'Supplier Profile',
+    path: '/SupplierProfile/messages',
     cName: 'dropdown-link'
-  }
+  },
+  {
+    title: 'Designer Profile',
+    path: '/DesignerProfile/messages',
+    cName: 'dropdown-link'
+  },
+  
+  // {
+  //   title: 'Design',
+  //   path: '/',
+  //   cName: 'dropdown-link'
+  // },
+  // {
+  //   title: 'Development',
+  //   path: '/',
+  //   cName: 'dropdown-link'
+  // }
 ];

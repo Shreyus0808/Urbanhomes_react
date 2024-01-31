@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -7,22 +7,52 @@ import Dropdown from './Dropdown';
 function Navbar() {
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
-
-  const onMouseEnter = () => {
-    if (window.innerWidth < 960) {
-      setDropdown(false);
+  const handleClick = () => {
+    if (isMobile) {
+      setClick(!click);
+      setDropdown(!dropdown); // Toggle dropdown visibility on mobile
     } else {
+      setClick(!click);
+    }
+  };
+
+  const closeMobileMenu = () => {
+    setClick(false);
+    setDropdown(false); // Hide the dropdown when closing the mobile menu
+  };
+
+  const handleDropdownClick = () => {
+    if (isMobile) {
+      setDropdown(!dropdown); // Toggle dropdown visibility on mobile
+    }
+  };
+
+  const checkIsMobile = () => {
+    if (window.innerWidth <= 960) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  useEffect(() => {
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
+
+  const handleHover = () => {
+    if (!isMobile) {
       setDropdown(true);
     }
   };
 
-  const onMouseLeave = () => {
-    if (window.innerWidth < 960) {
-      setDropdown(false);
-    } else {
+  const handleLeave = () => {
+    if (!isMobile) {
       setDropdown(false);
     }
   };
@@ -31,8 +61,8 @@ function Navbar() {
     <>
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-          EPIC
-          <i class='fab fa-firstdraft' />
+          HalaHomes
+          <i className='fab fa-firstdraft' />
         </Link>
         <div className='menu-icon' onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -45,43 +75,28 @@ function Navbar() {
           </li>
           <li
             className='nav-item'
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleLeave}
+            onClick={handleDropdownClick}
           >
-            <Link
-              to='/services'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
+            <Link to='#' className='nav-links'>
               Services <i className='fas fa-caret-down' />
             </Link>
-            {dropdown && <Dropdown />}
+            {dropdown && <Dropdown />} {/* Show dropdown on hover or click */}
           </li>
           <li className='nav-item'>
-            <Link
-              to='/products'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
+            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
               Products
             </Link>
           </li>
           <li className='nav-item'>
-            <Link
-              to='/contact-us'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
+            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
               Contact Us
             </Link>
           </li>
           <li>
-            <Link
-              to='/sign-up'
-              className='nav-links-mobile'
-              onClick={closeMobileMenu}
-            >
-              Sign Up
+            <Link to='/log-in' className='nav-links-mobile' onClick={closeMobileMenu}>
+              Log In
             </Link>
           </li>
         </ul>
